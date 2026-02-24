@@ -1,5 +1,6 @@
 package com.split.backend_spring.service;
 
+import com.split.backend_spring.dto.request.group.GroupRequest;
 import com.split.backend_spring.model.Group;
 import org.springframework.stereotype.Service;
 
@@ -13,5 +14,5 @@ public interface GroupService {
     List<Group> findAll();
     Group  save(Group group);
     void deleteById(Long id);
-    Group createGroup(Group group, Long creatorId);
+    Group createGroup(GroupRequest group, String usernameCreator);
 }

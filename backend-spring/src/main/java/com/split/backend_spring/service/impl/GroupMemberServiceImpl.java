@@ -23,4 +23,18 @@ public class GroupMemberServiceImpl implements GroupMemberService {
     private final GroupRepository groupRepo;
 
 
+    @Override
+    public GroupMember save(GroupMember groupMember) {
+        return  groupMemberRepo.save(groupMember);
+    }
+
+    @Override
+    public GroupMember findById(Long id) {
+        return groupMemberRepo.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<GroupMember> findAll() {
+        return groupMemberRepo.findAll();
+    }
 }

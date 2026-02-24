@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -52,12 +53,19 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public Group createGroup(Group group, Long creatorId) {
-        // 1. Salva il gruppo per ottenere l'ID
-        Group savedGroup = groupRepo.save(group);
+    public Group createGroup(GroupRequest group, String usernameCreator) {
 
         // 2. Recupera l'utente creatore
-        User creator = userRepo.findById(creatorId).orElseThrow(() -> new RuntimeException("Creator user not found with ID: " + creatorId));
+        User creator = userRepo.findUserByUsername(usernameCreator).orElseThrow(() -> new RuntimeException("Creator user not found with ID: " + usernameCreator));
+
+        // 1. Salva il gruppo per ottenere l'ID
+        Group savedGroup = new Group();
+        savedGroup.setName(group.getName());
+        savedGroup.setDescription(group.getDescription());
+        savedGroup.setMembers(new ArrayList<>());
+        savedGroup.setExpenses(new ArrayList<>());
+
+        groupRepo.save(savedGroup);
 
         // 3. Crea l'associazione GroupMember
         GroupMember membership = new GroupMember();
