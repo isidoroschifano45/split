@@ -1,5 +1,7 @@
 package com.split.backend_spring.exception;
 
+import com.split.backend_spring.exception.group.GroupNotFoundException;
+import com.split.backend_spring.exception.groupmember.GroupMemberNotFoundException;
 import com.split.backend_spring.exception.user.UserAlreadySignIn;
 import com.split.backend_spring.exception.user.UserNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -66,6 +68,28 @@ public class GlobalExceptionHandler {
         body.put("errors", errors);
 
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(GroupNotFoundException.class)
+    public ResponseEntity<?> handleGroupNotFound(GroupNotFoundException ex) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("status", HttpStatus.NOT_FOUND.value());
+        body.put("error", "Not Found");
+        body.put("message", ex.getMessage());
+        body.put("descrizione", "Il gruppo che stai cercando non esiste nel DB");
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(GroupMemberNotFoundException.class)
+    public ResponseEntity<?> handleGroupMemberNotFound(GroupMemberNotFoundException ex) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("status", HttpStatus.NOT_FOUND.value());
+        body.put("error", "Not Found");
+        body.put("message", ex.getMessage());
+        body.put("descrizione", "Il group member che stai cercando non esiste nel DB");
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
 
 

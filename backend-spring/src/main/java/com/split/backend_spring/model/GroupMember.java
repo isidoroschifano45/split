@@ -8,6 +8,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "group_members")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -26,6 +27,7 @@ public class GroupMember {
     @JoinColumn(name = "group_id")
     private Group group;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
 
